@@ -1,14 +1,13 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "gpioin.hpp"
-#include<iostream>
+#include <iostream>
 using namespace std;
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     ros::init(argc, argv, "ksbState_publisher");
     ros::NodeHandle n;
-    ros::Publisher level_pub = n.advertise<std_msgs::String>("gpio_levels", 1000);
+    ros::Publisher level_pub = n.advertise<std_msgs::String>("/ksb_state", 100);
     ros::Rate loop_rate(10);
 
     gpio *gp1 = new gpio();
@@ -29,7 +28,7 @@ int main(int argc, char **argv)
         gp2->closeGpio(BUZZER2);
         return -1;
     }
-
+    
     while (n.ok())
     {
         int level1 = gp1->readGPIOValue(NAME1);
