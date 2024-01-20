@@ -7,7 +7,7 @@ using namespace std;
 int main(int argc, char **argv) {
     ros::init(argc, argv, "ksbState_publisher");
     ros::NodeHandle n;
-    ros::Publisher level_pub = n.advertise<std_msgs::String>("/ksb_state", 100);
+    ros::Publisher level_pub = n.advertise<std_msgs::String>("/ksb/state", 100);
     ros::Rate loop_rate(10);
 
     gpio *gp1 = new gpio();
@@ -43,6 +43,7 @@ int main(int argc, char **argv) {
         } else if (level1 == 1 && level2 == 1) {
             level_msg.data = "NormalState";
         }
+        printf("GPIO Level: [%d, %d], state is %s\n", level1, level2, level_msg.data.c_str());
         level_pub.publish(level_msg);
         ros::spinOnce();
         loop_rate.sleep();
